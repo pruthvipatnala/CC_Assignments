@@ -1,0 +1,8 @@
+
+1) Diff b/w resource and end point .
+Ans : In REST, the resource typically refers to some object or set of objects that are exposed at an API endpoint. /api/users/johnny. An endpoint by itself is just a reference to a uri that accepts web requests that may or may not be RESTful.
+
+2) What is an URI ?
+Ans : REST APIs use Uniform Resource Identifiers (URIs) to address resources.
+
+3) 
