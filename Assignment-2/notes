@@ -5,4 +5,15 @@ Ans : In REST, the resource typically refers to some object or set of objects th
 2) What is an URI ?
 Ans : REST APIs use Uniform Resource Identifiers (URIs) to address resources.
 
-3) 
+3) Status codes info - 
+Ans : 
+
+200 - The HTTP 200 OK success status response code indicates that the request has succeeded.
+201 - The HTTP 201 Created success status response code indicates that the request has succeeded and has led to the creation of a resource.
+204 - The server has successfully fulfilled the request and that there is no additional content to send in the response payload body.
+400 - 400 Bad Request response status code indicates that the server could not understand the request due to invalid syntax.
+405 -  405 Method Not Allowed response status code indicates that the request method is known by the server but is not supported by the target resource.
+413 - The HTTP 413 Payload Too Large response status code indicates that the request entity is larger than limits defined by server; the server might close the connection or return a Retry-After header field.
+
+
+
