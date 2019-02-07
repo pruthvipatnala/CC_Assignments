@@ -16,8 +16,12 @@ def add_user(details):
     conn.execute(command)
     conn.commit()
 
-
-
+'''
+@app.route("/api/v1/users",methods=["POST","GET","DELETE","PUT"])
+def api_add_user():
+    if request.method == 'POST':
+        
+'''
 
 
 
