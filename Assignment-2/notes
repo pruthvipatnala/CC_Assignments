@@ -19,3 +19,11 @@ Ans :
 4)JSON (JavaScript Object Notation) is a text-based data storage format that is designed to be easy to read for both humans and machines. JSON is generally the most common format for returning data through an API, XML being the second most common.
 
 
+
+curl command : 
+
+API 1 :
+curl -i --header "Content-Type: application/json"   --request POST   --data '{"username":"xyz","password":"xyz"}'   http://localhost:5001/api/v1/users
+
+API 2 :
+curl -i -X "DELETE" http://localhost:5001/api/v1/users/<username>
