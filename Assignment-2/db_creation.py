@@ -15,3 +15,11 @@ conn.execute("CREATE TABLE user (\
              password TEXT NOT NULL,\
              PRIMARY KEY(user_name));")
 
+conn.commit()
+conn.execute("CREATE TABLE category (\
+             category_name TEXT NOT NULL,\
+             act_count TEXT NOT NULL,\
+             PRIMARY KEY(category_name));")
+
+conn.commit()
+
