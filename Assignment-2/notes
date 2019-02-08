@@ -28,12 +28,14 @@ curl -i --header "Content-Type: application/json"   --request POST   --data '{"u
 API 2 :
 curl -i -X "DELETE" http://localhost:5001/api/v1/users/<username>
 
+API 3 :
+curl -i --header "Content-Type: application/json"   --request GET   --data '{}'   http://localhost:5001/api/v1/categories
+
 API 4 :
 curl -i --header "Content-Type: application/json"   --request POST   --data '["garbage","sewage"]'   http://localhost:5001/api/v1/categories
 
-
-
-
+API 5 :
+curl -i -X "DELETE" http://localhost:5001/api/v1/categories/<categoryName>
 
 
 

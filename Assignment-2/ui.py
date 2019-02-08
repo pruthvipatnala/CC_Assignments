@@ -23,9 +23,9 @@ def remove_user(user_name):
     conn.execute(command)
     conn.commit()
 
-def add_category(category_name):
+def add_category(categoryName):
     conn=sql.connect("assign.db")
-    command = "INSERT INTO category(category_name,act_count) values ('"+str(category_name)+"','"+str(0)+"');"
+    command = "INSERT INTO category(category_name,act_count) values ('"+str(categoryName)+"','"+str(0)+"');"
     conn.execute(command)
     conn.commit()
 
@@ -40,6 +40,11 @@ def get_act_counts():
 
     return act_count_dict
 
+def remove_category(categoryName):
+    conn=sql.connect("assign.db")
+    command = "DELETE FROM category WHERE category_name='"+str(categoryName)+"';"
+    conn.execute(command)
+    conn.commit()
 
 
 #api 1
@@ -99,6 +104,16 @@ def api_add_category():
             add_category(i)
 
         return jsonify({}),200
+
+
+#api 5
+@app.route('/api/v1/categories/<categoryName>' , methods=["POST","GET","DELETE","PUT"])
+def api_remove_category(categoryName):
+    if request.method == 'DELETE':
+        remove_category(categoryName)
+
+        return jsonify({}),200
+
 
 
 
