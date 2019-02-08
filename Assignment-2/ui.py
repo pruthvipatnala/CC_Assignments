@@ -23,7 +23,14 @@ def remove_user(user_name):
     conn.execute(command)
     conn.commit()
 
+def add_category(category_name):
+    conn=sql.connect("assign.db")
+    command = "INSERT INTO category(category_name,act_count) values ('"+str(category_name)+"','"+str(0)+"');"
+    conn.execute(command)
+    conn.commit()
 
+
+#api 1
 @app.route('/api/v1/users',methods=["POST","GET","DELETE","PUT"])
 def api_add_user():
     if request.method == 'POST':
@@ -46,7 +53,7 @@ def api_add_user():
         
     return render_template('test.html')
         
-
+#api 2
 @app.route('/api/v1/users/<username>',methods=["POST","GET","DELETE","PUT"])
 def api_delete_user(username):
     if request.method == 'DELETE':
@@ -61,6 +68,15 @@ def api_delete_user(username):
     return render_template('test.html')
 
 
+#api 4
+@app.route('/api/v1/categories', methods=["POST","GET","DELETE","PUT"])
+def api_add_category():
+    if request.method == 'POST':
+        userDataInJsonFormat = (request.get_json())
+        for i in userDataInJsonFormat:
+            add_category(i)
+
+        return jsonify({}),200
 
 
 
