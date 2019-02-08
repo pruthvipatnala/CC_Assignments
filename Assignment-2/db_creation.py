@@ -23,3 +23,16 @@ conn.execute("CREATE TABLE category (\
 
 conn.commit()
 
+
+conn.execute("CREATE TABLE act (\
+             category_name TEXT NOT NULL,\
+             actID TEXT NOT NULL,\
+             user_name TEXT NOT NULL,\
+             time_stamp TEXT NOT NULL,\
+             caption TEXT NOT NULL,\
+             upvotes TEXT NOT NULL,\
+             imgB64 TEXT NOT NULL,\
+             PRIMARY KEY(actID));")
+
+conn.commit()
+

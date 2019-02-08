@@ -116,6 +116,15 @@ def api_remove_category(categoryName):
 
 
 
+#api 6
+'''
+@app.route('/api/v1/categories/<categoryName>/acts', methods=["POST","GET","DELETE","PUT"])
+def api_list_acts_of_category(categoryName):
+    if request.method == 'GET':
+'''
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,port = 5001)
