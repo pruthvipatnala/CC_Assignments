@@ -23,6 +23,20 @@ input[type=text]:focus{
     outline: none;
 }
 
+input[type=password]{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=password]:focus{
+    background-color: #ddd;
+    outline: none;
+}
+
 hr {
     border: 1px solid #f1f1f1;
     margin-bottom: 25px;
@@ -79,7 +93,7 @@ button:hover {
 </head>
 <body>
 
-<form name="new_customer" action="{{ url_for('/api/v1/users') }}" method="POST" style="border:1px solid #ccc">
+<form name="new_customer" action="{{ url_for('api_add_user') }}" method="POST" style="border:1px solid #ccc">
 	<div class="container">
      <h1>Sign Up</h1>
      <p>Please fill in this form to create an account.</p>
@@ -89,8 +103,12 @@ button:hover {
 	<input type='TEXT' id='name' name='name'></input>
 	<br />
 
+    <label for="password"><b>Password</b></label>
+    <input type='PASSWORD' id='password' name='password'></input>
+    <br />
+
 	<label for="psw"><b>Contact Number</b></label>
-	<input type='TEXT' id='conatct_no' name='contact_no' value={{rows[0]}}></input>
+	<input type='TEXT' id='contact_no' name='contact_no' ></input>
 	<br />
 
 	<label for="psw-repeat"><b>E-Mail</b></label>
