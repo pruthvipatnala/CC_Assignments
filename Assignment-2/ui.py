@@ -29,6 +29,18 @@ def add_category(category_name):
     conn.execute(command)
     conn.commit()
 
+def get_act_counts():
+    conn=sql.connect("assign.db")
+    command = "select * from category"
+    l = list(conn.execute(command))
+    #print(l)
+    act_count_dict  = dict()
+    for i in l:
+        act_count_dict[i[0]] = int(i[1])
+
+    return act_count_dict
+
+
 
 #api 1
 @app.route('/api/v1/users',methods=["POST","GET","DELETE","PUT"])
@@ -66,6 +78,16 @@ def api_delete_user(username):
         return jsonify({}),200
 
     return render_template('test.html')
+
+#api 3
+@app.route('/api/v1/categories', methods=["POST","GET","DELETE","PUT"])
+def api_list_all_categories():
+    if request.method == 'GET':
+        #userDataInJsonFormat = (request.get_json())
+        act_count_dict = get_act_counts()
+
+        return jsonify(act_count_dict),200
+
 
 
 #api 4
