@@ -171,7 +171,17 @@ def api_upvote():
         return jsonify({}),200
 
 
+#api 10
+@app.route('/api/v1/acts/<int:actID>' , methods=["POST","GET","DELETE","PUT"])
+def api_remove_act(actID):
+    if request.method== "DELETE":
 
+        conn = sql.connect('assign.db')
+        command = "DELETE FROM act WHERE actID = '"+str(actID)+"';"
+        conn.execute(command)
+        conn.commit()
+
+        return jsonify({}),200
 
 
 if __name__ == '__main__':
