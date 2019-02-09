@@ -37,9 +37,11 @@ curl -i --header "Content-Type: application/json"   --request POST   --data '["g
 API 5 :
 curl -i -X "DELETE" http://localhost:5001/api/v1/categories/<categoryName>
 
+API 6 :
+curl -i --header "Content-Type: application/json"   --request 'GET'   --data '{}'   http://localhost:5001/api/v1/categories/<categoryName>/acts
 
-
-
+API 7 :
+curl -i --header "Content-Type: application/json"   --request 'GET'   --data '{}'   http://localhost:5001/api/v1/categories/<categoryName>/acts/size
 
 
 

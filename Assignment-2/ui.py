@@ -133,6 +133,19 @@ def api_list_acts_of_category(categoryName):
         return jsonify(output),200
 
 
+#api 7
+@app.route('/api/v1/categories/<categoryName>/acts/size', methods=["POST","GET","DELETE","PUT"])
+def api_number_of_act_in_a_category(categoryName):
+    if request.method=="GET":
+        conn=sql.connect("assign.db")
+        command = "SELECT COUNT(*) FROM act WHERE category_name= '"+str(categoryName)+"';"
+        count = list(conn.execute(command))[0][0]
+
+        return jsonify([count]),200
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,port = 5001)
