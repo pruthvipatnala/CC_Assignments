@@ -52,12 +52,9 @@ def remove_category(categoryName):
 @app.route('/api/v1/users',methods=["POST","GET","DELETE","PUT"])
 def api_add_user():
     if request.method == 'POST':
-        #conn=sql.connect("assign.db")
-        #command = "select count(*) from user;"
-        #n = int(list(conn.execute(command))[0][0])
-        #conn.commit()
-        #print(n)
-        userDataInJsonFormat = (request.get_json())
+        #print("Hello")
+        userDataInJsonFormat = (request.get_json(force=True))
+        print(userDataInJsonFormat)
         user_name = userDataInJsonFormat['username']
         password = userDataInJsonFormat['password']
         enc_password = hashlib.sha1(password.encode()) 
@@ -154,6 +151,24 @@ def api_number_of_act_in_a_category(categoryName):
         count = list(conn.execute(command))[0][0]
 
         return jsonify([count]),200
+
+
+#api 9
+@app.route('/api/v1/acts/upvote' , methods=["POST","GET","DELETE","PUT"])
+def api_upvote():
+    if request.method=='POST':
+        userDataInJsonFormat = request.get_json(force=True)
+        actID = str(userDataInJsonFormat[0])
+        #print(actID)
+        conn = sql.connect("assign.db")
+        command = "SELECT * from act WHERE actID ='"+actID+"';"
+        current_count = int(list(conn.execute(command))[0][5])
+        conn.commit()
+        command = "UPDATE act SET upvotes='"+str(current_count+1)+"' WHERE actID='"+actID+"';"
+        conn.execute(command)
+        conn.commit()
+
+        return jsonify({}),200
 
 
 
