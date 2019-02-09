@@ -117,7 +117,7 @@ def api_remove_category(categoryName):
 
 
 
-#api 6
+#api 6 and api 8
 @app.route('/api/v1/categories/<categoryName>/acts', methods=["POST","GET","DELETE","PUT"])
 def api_list_acts_of_category(categoryName):
     if request.method == 'GET':
@@ -125,12 +125,24 @@ def api_list_acts_of_category(categoryName):
         command = "SELECT * FROM act WHERE category_name= '"+str(categoryName)+"';"
         l = list(conn.execute(command))
         #print(l)
-        output = []
-        for i in l:
-            d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
-            output.append(d)
+        start = request.args.get('start',type = int,default=-1)
+        end = request.args.get('end',type = int,default=-1)
+        
+        if(start==-1 or end==-1):
+            output = []
+            for i in l:
+                d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
+                output.append(d)
 
-        return jsonify(output),200
+            return jsonify(output),200
+
+        elif(start!=-1 and end!=-1):
+            output = []
+            for i in l[start:end+1]:
+                d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
+                output.append(d)
+
+            return jsonify(output),200            
 
 
 #api 7

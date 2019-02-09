@@ -29,7 +29,9 @@ conn.execute("CREATE TABLE act (\
 conn.commit()
 
 
-commands = ["INSERT INTO act values ('abc','1','abc','xyz','bla','2','gsgwt43523f');","INSERT INTO act values ('abc','2','ab','sdfa','bla','3','wt43523f');","INSERT INTO act values ('xyz','3','abc','mlp','bla','10','fasdfa');"]
+commands = ["INSERT INTO act values ('abc','1','abc','xyz','bla','2','gsgwt43523f');","INSERT INTO act values ('abc','2','ab','sdfa','bla','3','wt43523f');","INSERT INTO act values ('xyz','3','abc','mlp','bla','10','fasdfa');",\
+			"INSERT INTO act values ('abc','4','hi','my','name','2','g23f');","INSERT INTO act values ('abc','5','sup','my','name','100','blabla');",\
+			"INSERT INTO act values ('abc','6','no','my','name','19','g2afaa3f');","INSERT INTO act values ('abc','7','SDJ','mklpo','nae','54','g2asd3f');"]
 for i in commands:
 	conn.execute(i)
 	conn.commit()

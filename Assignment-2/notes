@@ -43,8 +43,8 @@ curl -i --header "Content-Type: application/json"   --request 'GET'   --data '{}
 API 7 :
 curl -i --header "Content-Type: application/json"   --request 'GET'   --data '{}'   http://localhost:5001/api/v1/categories/<categoryName>/acts/size
 
-
-
+API 8 :
+curl -i --header "Content-Type: application/json"   --request 'GET'   --data '{}' --url 'http://localhost:5001/api/v1/categories/abc/acts?start=2&end=4'
 
 
 
