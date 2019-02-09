@@ -48,7 +48,7 @@ curl -i --header "Content-Type: application/json"   --request 'GET'   --data '{}
 
 
 
-
+curl -i "Content-Type: application/json" --request 'POST' --data '{"actId": 1234,"username": "john_doe","timestamp": "DD-MM-YYYY:SS-MM-HH","caption": "caption text","categoryName": "category_xyz","imgB64":"TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvb"}' http://localhost:5001​/api/v1/acts
 
 
 

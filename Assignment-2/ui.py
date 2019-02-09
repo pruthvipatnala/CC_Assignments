@@ -183,6 +183,26 @@ def api_remove_act(actID):
 
         return jsonify({}),200
 
+#api 11
+@app.route('/api/v1/acts' , methods=["POST","GET","DELETE","PUT"])
+def api_upload_act():
+    if request.method=='POST':
+        userDataInJsonFormat = (request.get_json(force=True))
+        actID = userDataInJsonFormat['actID']
+        username = userDataInJsonFormat['username']
+        timestamp = userDataInJsonFormat['timestamp']
+        caption = userDataInJsonFormat['caption']
+        categoryName = userDataInJsonFormat['categoryName']
+        imgB64 = userDataInJsonFormat['imgB64']
+        upvotes = 0
+
+        conn = sql.connect('assign.db')
+        command = "INSERT INTO act values ('"+str(categoryName)+"','"+str(actID)+"','"+str(username)+"','"+str(timestamp)+"','"+str(caption)+"','"+str(upvotes)+"','"+str(imgB64)+"');"
+        conn.execute(command)
+        conn.commit()
+
+        return jsonify({}),200
+
 
 if __name__ == '__main__':
     app.run(debug=True,port = 5001)
