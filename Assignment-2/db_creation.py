@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb  7 20:58:15 2019
-
-@author: pruthvi
-"""
-
 import sqlite3 as sql
 
 conn=sql.connect("assign.db")
@@ -35,4 +27,12 @@ conn.execute("CREATE TABLE act (\
              PRIMARY KEY(actID));")
 
 conn.commit()
+
+
+commands = ["INSERT INTO act values ('abc','1','abc','xyz','bla','2','gsgwt43523f');","INSERT INTO act values ('abc','2','ab','sdfa','bla','3','wt43523f');","INSERT INTO act values ('xyz','3','abc','mlp','bla','10','fasdfa');"]
+for i in commands:
+	conn.execute(i)
+	conn.commit()
+
+
 

@@ -3,6 +3,7 @@ import requests
 import sqlite3 as sql
 import hashlib
 #import jsonify
+from collections import OrderedDict
 
 
 app = Flask(__name__)
@@ -117,12 +118,19 @@ def api_remove_category(categoryName):
 
 
 #api 6
-'''
 @app.route('/api/v1/categories/<categoryName>/acts', methods=["POST","GET","DELETE","PUT"])
 def api_list_acts_of_category(categoryName):
     if request.method == 'GET':
-'''
+        conn=sql.connect("assign.db")
+        command = "SELECT * FROM act WHERE category_name= '"+str(categoryName)+"';"
+        l = list(conn.execute(command))
+        #print(l)
+        output = []
+        for i in l:
+            d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
+            output.append(d)
 
+        return jsonify(output),200
 
 
 
