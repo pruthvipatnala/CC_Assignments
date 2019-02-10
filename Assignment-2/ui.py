@@ -42,9 +42,15 @@ def get_act_counts():
 
 def remove_category(categoryName):
     conn=sql.connect("assign.db")
+    #delete from category table
     command = "DELETE FROM category WHERE category_name='"+str(categoryName)+"';"
     conn.execute(command)
     conn.commit()
+    #delete from act table (cascade effect)
+    command = "DELETE FROM act WHERE category_name='"+str(categoryName)+"';"
+    conn.execute(command)
+    conn.commit()
+
 
 def check_new_user(username):
     conn=sql.connect("assign.db")
@@ -125,7 +131,7 @@ def api_delete_user(username):
 def api_list_all_categories():
     if request.method == 'GET':
         userDataInJsonFormat = (request.get_json())
-        if(userDataInJsonFormat!=None):
+        if(userDataInJsonFormat!=jsonify({})):
             return jsonify({}),400
         act_count_dict = get_act_counts()
 
@@ -166,9 +172,15 @@ def api_add_category():
 @app.route('/api/v1/categories/<categoryName>' , methods=["POST","GET","DELETE","PUT"])
 def api_remove_category(categoryName):
     if request.method == 'DELETE':
+        if check_new_category(categoryName)==1:
+            return jsonify({}),400
+        
         remove_category(categoryName)
 
         return jsonify({}),200
+
+    elif request.method != 'DELETE':
+        return jsonify({}),405
 
 
 
