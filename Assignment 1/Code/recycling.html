@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>AWS-project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+  body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color:orange;
+ 
+ 
+}
+
+.topnav a {
+  float: right;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  
+  color:white;
+}
+
+.active {
+  background-color: #4CAF50;
+  color:black;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+
+.sec{
+  background-color:#f2f2f4; 
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+.container-fluid{
+  width:1141px;
+  height:2361.12px;
+  margin-left:auto;
+  margin-right:auto;
+  background-color:#f2f2f2;
+  font-family: 'Source Sans Pro',sans-serif;
+  
+}
+.left-sidebar{
+  width:270px;
+  height:300px;
+  background-color:white;
+  border:1px #c2c2a3 solid;
+  border-radius: 2px;
+
+}
+.main-post{
+  width:540px;
+  height:300px;
+  background-color:white;
+  border:1px #c2c2a3 solid;
+  border-radius: 2px;
+
+  
+}
+.right-sidebar{
+  width:270px;
+  height:300px;
+  background-color:#ffa500;
+  border:1px #c2c2a3 solid;
+  border-radius: 2px;
+   
+}
+
+.main-section{
+	
+	background-color:#f2f2f2;
+	
+
+}
+.top-space{
+	height:20px;
+}
+.upload{
+	height:70px;
+	background-color:white;
+	border-radius: 2px;
+	margin-bottom: 20px;
+	border:1px #c2c2a3 solid;
+  	border-radius: 2px;
+
+}
+.post-content{
+	height:230px;
+	overflow: hidden;
+
+
+}
+.img-fluid{
+	height:230px;
+	margin-left:16%;
+	
+}
+
+.post-footer{
+	height:70px;
+	
+	border-style: solid;
+	border-width:1px 0px 0px 0px;
+	border-color:#c2c2a3;
+
+}
+.post-space{
+	height:50px;
+	background-color:#f2f2f2;
+}
+#icon{
+	font-size:30px;
+	margin-left: 130px;
+	margin-top: 10px;
+
+}
+.caption{
+	height:35px;
+
+
+}
+#like
+{
+	font-size:20px;
+	margin-left: 20px;	
+
+}
+#add_img{
+	margin-left:7%;
+}
+.social-buttons{
+	height:35px;
+	float:bottom;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #c2c2a3;
+	padding-top: 5px;
+	background-color:#ffa500;
+	
+}
+.values{
+	color:white;
+}
+#trash{
+	font-size:20px;
+	margin-left:30px;
+	width:20px;
+	
+}
+#user-caption{
+	padding-top:8px;
+	padding-bottom:2px;
+	font-size:15px;
+	font-style: bold;
+	margin-left: 5px;
+}
+
+.nav-content{
+	
+}
+.search{
+	margin-left: 170px;
+	width:800px;
+}
+.user-name{
+	border-width: 1px 0px 0px 0px;
+	border-color:#c2c2a3;
+	height:50px;
+	text-align:center;
+	padding-bottom: 5px;
+	border-style: solid;
+	padding-top:10px;
+	font-size:20px;
+}
+.user-image{
+	height:110px;
+	background-color:#ffa500;
+}
+.cat{
+	margin-top:5px;
+	margin-bottom:3px;
+	color:#ffa500;
+	background-color:white;
+	font-weight:bold;
+	font-size:250%;
+	margin-left:5px;
+}
+.att{
+	font-size:150%;
+	margin-top:6px;
+	margin-left:7px;	
+	margin-bottom:4px;
+	
+}
+
+.att a{
+	color:white;
+}
+.att a:hover{
+	color:black;
+}
+.fi-graph{
+	size:10px;
+	color:#000000;
+	background-color:#ffa500
+}
+.followers{
+	height:60px;
+	text-align:center;
+	border-width: 1px 0px 0px 0px;
+	border-color:#c2c2a3;
+	border-style:solid;
+	padding-bottom:5px;
+	padding-top:5px;
+
+
+}
+.following{
+	height:60px;
+	text-align:center;
+	border-width: 1px 0px 0px 0px;
+	border-color:#c2c2a3;
+	border-style: solid;
+	padding-bottom:5px;
+	padding-top:5px;
+}
+
+
+</style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+
+
+$('.main-post').on('click',function(){
+    $(this).parent('div.post-footer').remove();
+});
+</script>
+<body>
+<div class="topnav" id="myTopnav">
+	<i class="fa fa-camera-retro" id="icon"></i>
+	<!--
+  <div class="nav-content">	
+  	
+  
+    		
+  <div class="search">
+
+    <div class="row">
+        <div class="col-4">
+            <div class="input-group">
+                <input class="form-control border-secondary py-2" type="search" value="search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+-->
+	
+<p id="image_count" hidden>1</p>
+
+  
+  <a href="#trending">Trending</a>
+  <a href="#Notifications">Notifications</a>
+  <a href="#Chats">Chats</a>
+</div>
+
+<div class="main-section">
+	
+	<div class="container-fluid">
+	<div class="top-space">
+	</div>
+		
+
+  	<div class="row">
+    	<div class="col-lg-3 col-md-4 pl-0">
+    		<div class="left-sidebar">	
+    			<div class="user-image">
+    				<img class="img-fluid" src="">
+    			</div>
+    			<div class="user-name">
+    				<h2>A.P.H</h2>
+    			</div>	
+    			<div class="followers">
+    				<h4>Followers</h4>
+    				
+    				<h3>234</h3>
+
+    			</div>
+    			<div class="following">
+    				<h4>Following</h4>
+    			
+    				<h3>52</h3>
+    			</div>
+				
+    		</div>	
+<div>
+    				<button id='add_img' onclick="image_add()">Add Image</button>
+    			</div>
+    	</div>
+    	<div class="col-lg-6 col-md-8" id="copy">
+    			
+
+    		<!--1-->
+    		<div id="posts">
+    		<div class="main-post" id='main-post1'>
+    			<div class="post-content">
+    				<img class="img-fluid" src="rec1.jpg">
+    			</div>	
+    			<div class="post-footer">
+    				<div class="caption">
+    					<p id="user-caption"><b>Recycling:</b>The way to a sustainable Earth</p>
+
+    				</div>	
+    				<div class="social-buttons">
+    					<table id='status1'>
+    					<tr id='like1_count'><td><button id="like1" onclick="like('like1_count')"><i class="fa fa-thumbs-up" id="like"></i></button></td>
+    					<td >0</td>
+    					<td><button id='delete1' onclick="delete_img('status1')"><i class="mega-octicon octicon-trashcan" id="trash"></i></button> </td>
+    					</tr>
+    					</table>
+    				</div>
+    			</div>
+    		</div>
+    		</div>	
+    		
+    		</div>	
+
+
+    	<div class="col-lg-3 col-md-4 pr-0">
+    		<div class="right-sidebar">
+			<h3 class="cat">Categories</h3>
+			<p class="att"><a href="afforestation.html">Afforestation</a></p>
+			<p class="att"><a href="animalcare.html">Animal Care</a></p>
+			<p class="att"><a href="recycling.html">Recycling</a></p>
+			<p class="att"><a href="sanitation.html">Sanitation</a></p>
+			<p class="att"><a href="shramdhan.html">Shrama Dhan</a></p>
+			<p class="att"><a href="Vaccination.html">Vaccination</a></p>
+			<p class="att"><a href="OldAge.html">Old-Age Homes</a></p>
+			<p class="att"><a href="orphanage.html">Orphanages</a></p>
+    		</div>	
+    	</div>
+</div>
+</div>
+    
+
+</div>
+    
+
+<script type="text/javascript">
+	
+	function image_add(){
+		//alert("Sup");
+		 
+		var url_array = ["rec1.jpg","rec2.jpg","rec3.png","rec4.jpg","rec5.png"];
+		var k = Math.floor(Math.random() * url_array.length)
+		//alert(k);
+		var rand = url_array[k];
+		//alert(rand);
+		var list = document.getElementById('copy');
+
+		posts = document.getElementById('posts');
+		//post_num = document.getElementsByClassName("main-post").length;
+		post_num = Number(document.getElementById('image_count').innerHTML);
+		document.getElementById('image_count').innerHTML = post_num+1;
+		//alert(post_num);
+		var main_post = document.createElement("div");
+		main_post.setAttribute("class", "main-post");
+		main_post.setAttribute("id","main-post"+String(post_num+1));
+		//alert(main_post.id);
+		posts.insertBefore(main_post,posts.firstChild);
+		//posts.appendChild(main_post);
+
+		
+		var post_content = document.createElement("div");
+		post_content.setAttribute("class","post-content");
+		post_content.innerHTML = '<img class="img-fluid" src="'+rand+'">'
+		main_post.appendChild(post_content);
+
+		var post_footer = document.createElement("div");
+		post_footer.setAttribute("class","post-footer");
+
+		post_footer.innerHTML = '<div class="caption"><p id="user-caption"><b>Recycling:</b>  The way to a sustainable planet</p></div><div class="social-buttons"><table id=\'status'+String(post_num+1)+'\'><tr id=\''+'like'+String(post_num+1)+'_count\'><td><button id="like'+String(post_num+1)+'" onclick="like(\'like'+String(post_num+1)+'_count\')"><i class="fa fa-thumbs-up" id="like"></i></button></td><td >0</td><td><button id=\'delete'+String(post_num+1)+'\' onclick="delete_img(\'status'+String(post_num+1)+'\')"><i class="mega-octicon octicon-trashcan" id="trash"></i></button> </td></tr></table></div>'
+
+		main_post.appendChild(post_footer);
+
+	}
+
+	
+
+function like(id)
+{
+    var row = document.getElementById(id);
+    var cell = row.getElementsByTagName("td");
+    //alert(cell[0].innerText);
+    y = Number(cell[1].innerText);
+    //alert(typeof Number(x.value));
+    //alert(y);
+    y+=1;
+    //x.value = String(y);
+    cell[1].innerText = y;
+
+}
+
+function delete_img(id){
+
+	soc_buttons = document.getElementById(id).parentNode;
+	post_footer = soc_buttons.parentNode;
+	main_post = post_footer.parentNode;
+	posts = main_post.parentNode;
+	posts.removeChild(main_post);
+}
+
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
