@@ -243,10 +243,24 @@ def api_list_acts_of_category(categoryName):
 def api_number_of_act_in_a_category(categoryName):
     if request.method=="GET":
         conn=sql.connect("assign.db")
+        command = "SELECT * FROM category WHERE category_name= '"+str(categoryName)+"';"
+        l = list(conn.execute(command))
+        conn.commit()
+        #print(l)
+        if(len(l)==0):
+            return jsonify({}),400
+
+
         command = "SELECT COUNT(*) FROM act WHERE category_name= '"+str(categoryName)+"';"
-        count = list(conn.execute(command))[0][0]
+        l = list(conn.execute(command))
+        conn.commit()
+        count = l[0][0]
+
 
         return jsonify([count]),200
+
+    elif request.method != 'GET':
+        return jsonify({}),405
 
 
 #api 9
