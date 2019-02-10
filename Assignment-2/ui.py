@@ -58,6 +58,19 @@ def check_new_user(username):
         #old user
         return 0
 
+def check_new_category(categoryName):
+    conn=sql.connect("assign.db")
+    command = "SELECT * FROM category WHERE category_name='"+str(categoryName)+"';"
+    l = list(conn.execute(command))
+    conn.commit()
+    if(len(l)==0):
+        #new category
+        return 1
+    else:
+        #old category
+        return 0
+
+
 #api 1
 @app.route('/api/v1/users',methods=["POST","GET","DELETE","PUT"])
 def api_add_user():
@@ -104,32 +117,49 @@ def api_delete_user(username):
 
     return render_template('test.html')
 
-#api 3
+#api 3 and api 4
 
 #note : have to handle status code 200
 
 @app.route('/api/v1/categories', methods=["POST","GET","DELETE","PUT"])
 def api_list_all_categories():
     if request.method == 'GET':
-        #userDataInJsonFormat = (request.get_json())
+        userDataInJsonFormat = (request.get_json())
+        if(userDataInJsonFormat!=None):
+            return jsonify({}),400
         act_count_dict = get_act_counts()
 
-        return jsonify(act_count_dict),200
+        return jsonify(act_count_dict),204
 
-    elif request.method!='GET':
+    elif request.method == 'POST':
+        userDataInJsonFormat = (request.get_json())
+        for i in userDataInJsonFormat:
+            if(check_new_category(i)==0):
+                return jsonify({}),400
+            add_category(i)
+
+        return jsonify({}),201
+
+    elif request.method!='GET' and request.method!='POST':
         return jsonify({}),405
 
 
-
+'''
 #api 4
 @app.route('/api/v1/categories', methods=["POST","GET","DELETE","PUT"])
 def api_add_category():
     if request.method == 'POST':
         userDataInJsonFormat = (request.get_json())
         for i in userDataInJsonFormat:
+            if(check_new_category(i)==0):
+                return jsonify({}),400
             add_category(i)
 
-        return jsonify({}),200
+        return jsonify({}),201
+
+    elif request.method!='POST':
+        return jsonify({}),405
+'''
 
 
 #api 5
@@ -149,6 +179,7 @@ def api_list_acts_of_category(categoryName):
         conn=sql.connect("assign.db")
         command = "SELECT * FROM act WHERE category_name= '"+str(categoryName)+"';"
         l = list(conn.execute(command))
+        conn.commit()
         #print(l)
         start = request.args.get('start',type = int,default=-1)
         end = request.args.get('end',type = int,default=-1)
