@@ -1,0 +1,11 @@
+html form type to upload a file without using php
+flask with ajax
+on form submission how to get the timestamp 
+how to send json data to flask api using ajax
+
+API-1:
+2) The password field must be a SHA1 hash hex (40 chars long, hex
+digits only, case-insensitive), otherwise send the appropriate response
+code from the given list.
+3) Removing user should delete all the acts related to that user
+4)Change all 0 based indexing to 1 based indexing
