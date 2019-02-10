@@ -272,13 +272,18 @@ def api_upvote():
         #print(actID)
         conn = sql.connect("assign.db")
         command = "SELECT * from act WHERE actID ='"+actID+"';"
-        current_count = int(list(conn.execute(command))[0][5])
-        conn.commit()
+        try:
+            current_count = int(list(conn.execute(command))[0][5])
+            conn.commit()
+        except:
+            return jsonify({}),400
         command = "UPDATE act SET upvotes='"+str(current_count+1)+"' WHERE actID='"+actID+"';"
         conn.execute(command)
         conn.commit()
 
         return jsonify({}),200
+    elif request.method != 'POST':
+        return jsonify({}),405
 
 
 #api 10
