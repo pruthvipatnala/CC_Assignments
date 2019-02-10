@@ -105,6 +105,9 @@ def api_delete_user(username):
     return render_template('test.html')
 
 #api 3
+
+#note : have to handle status code 200
+
 @app.route('/api/v1/categories', methods=["POST","GET","DELETE","PUT"])
 def api_list_all_categories():
     if request.method == 'GET':
@@ -112,6 +115,9 @@ def api_list_all_categories():
         act_count_dict = get_act_counts()
 
         return jsonify(act_count_dict),200
+
+    elif request.method!='GET':
+        return jsonify({}),405
 
 
 
