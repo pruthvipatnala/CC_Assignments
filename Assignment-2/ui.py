@@ -292,11 +292,35 @@ def api_remove_act(actID):
     if request.method== "DELETE":
 
         conn = sql.connect('assign.db')
+        #get category name
+        command = "SELECT category_name FROM act WHERE actID = '"+str(actID)+"';"
+        try:
+            category_name = list(conn.execute(command))[0][0]
+            print(category_name)
+            conn.commit()
+        except:
+            print('sup')
+            return jsonify({}),400
+
         command = "DELETE FROM act WHERE actID = '"+str(actID)+"';"
         conn.execute(command)
         conn.commit()
 
+        #update category table
+        command = "SELECT act_count from category where category_name = '"+str(category_name)+"';"
+        current_count = int(list(conn.execute(command))[0][0])
+        conn.commit()
+
+        command = "UPDATE category SET act_count='"+str(current_count-1)+"' WHERE category_name='"+str(category_name)+"';"
+        conn.execute(command)
+        conn.commit()
+
         return jsonify({}),200
+
+    elif request.method != 'DELETE':
+        return jsonify({}),405
+
+
 
 #api 11
 @app.route('/api/v1/acts' , methods=["POST","GET","DELETE","PUT"])
