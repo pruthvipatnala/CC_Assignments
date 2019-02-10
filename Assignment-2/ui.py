@@ -198,6 +198,7 @@ def api_upload_act():
 
         conn = sql.connect('assign.db')
         command = "INSERT INTO act values ('"+str(categoryName)+"','"+str(actID)+"','"+str(username)+"','"+str(timestamp)+"','"+str(caption)+"','"+str(upvotes)+"','"+str(imgB64)+"');"
+
         conn.execute(command)
         conn.commit()
 
