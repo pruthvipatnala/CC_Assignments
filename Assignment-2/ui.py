@@ -131,11 +131,14 @@ def api_delete_user(username):
 def api_list_all_categories():
     if request.method == 'GET':
         userDataInJsonFormat = (request.get_json())
-        if(userDataInJsonFormat!=jsonify({})):
+        print(userDataInJsonFormat)
+        
+        if(userDataInJsonFormat!={}):
             return jsonify({}),400
+        
         act_count_dict = get_act_counts()
 
-        return jsonify(act_count_dict),204
+        return jsonify(act_count_dict),200
 
     elif request.method == 'POST':
         userDataInJsonFormat = (request.get_json())
@@ -174,9 +177,8 @@ def api_remove_category(categoryName):
     if request.method == 'DELETE':
         if check_new_category(categoryName)==1:
             return jsonify({}),400
-        
-        remove_category(categoryName)
 
+        remove_category(categoryName)
         return jsonify({}),200
 
     elif request.method != 'DELETE':
@@ -185,6 +187,9 @@ def api_remove_category(categoryName):
 
 
 #api 6 and api 8
+
+#note : need to handle status code 204
+
 @app.route('/api/v1/categories/<categoryName>/acts', methods=["POST","GET","DELETE","PUT"])
 def api_list_acts_of_category(categoryName):
     if request.method == 'GET':
@@ -195,22 +200,42 @@ def api_list_acts_of_category(categoryName):
         #print(l)
         start = request.args.get('start',type = int,default=-1)
         end = request.args.get('end',type = int,default=-1)
-        
-        if(start==-1 or end==-1):
+        #print(start,end)
+
+        if(start==-1 and end==-1):
             output = []
+            server_limit = 99
+            request_length = len(l)
+
+            if(request_length>server_limit):
+                return jsonify({}),413
+
             for i in l:
+                #print(i)
                 d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
                 output.append(d)
 
+            #print(output)
             return jsonify(output),200
 
         elif(start!=-1 and end!=-1):
+            if(not(start>=0 and end <len(l) and start<=end)):
+                return jsonify({}),413
+
             output = []
             for i in l[start:end+1]:
                 d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
                 output.append(d)
 
-            return jsonify(output),200            
+            return jsonify(output),200
+
+        else:
+            return jsonify({}),400
+
+        
+
+    elif request.method != 'GET':
+        return jsonify({}),405        
 
 
 #api 7
