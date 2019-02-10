@@ -296,10 +296,10 @@ def api_remove_act(actID):
         command = "SELECT category_name FROM act WHERE actID = '"+str(actID)+"';"
         try:
             category_name = list(conn.execute(command))[0][0]
-            print(category_name)
             conn.commit()
+            print(category_name)
         except:
-            print('sup')
+            #print('sup')
             return jsonify({}),400
 
         command = "DELETE FROM act WHERE actID = '"+str(actID)+"';"
@@ -333,15 +333,54 @@ def api_upload_act():
         caption = userDataInJsonFormat['caption']
         categoryName = userDataInJsonFormat['categoryName']
         imgB64 = userDataInJsonFormat['imgB64']
-        upvotes = 0
+        try:
+            upvotes = userDataInJsonFormat['upvotes']
+            print(upvotes)
+            return jsonify({}),400
 
-        conn = sql.connect('assign.db')
-        command = "INSERT INTO act values ('"+str(categoryName)+"','"+str(actID)+"','"+str(username)+"','"+str(timestamp)+"','"+str(caption)+"','"+str(upvotes)+"','"+str(imgB64)+"');"
+        except:
+            upvotes = 0
+            #The username must exist, otherwise send the appropriate response code from the given list.
+            if(check_new_user(username)==1):
+                #print("Yes new user")
+                return jsonify({}),400
 
-        conn.execute(command)
-        conn.commit()
+            conn = sql.connect('assign.db')
 
-        return jsonify({}),200
+            if(check_new_category(categoryName)==1):
+                return jsonify({}),400                
+
+            try :
+                command = "INSERT INTO act values ('"+str(categoryName)+"','"+str(actID)+"','"+str(username)+"','"+str(timestamp)+"','"+str(caption)+"','"+str(upvotes)+"','"+str(imgB64)+"');"
+                #print(command)
+                conn.execute(command)
+                conn.commit()
+
+            except:
+                #print("in here 1")
+                return jsonify({}),400
+
+            try:
+                command = "SELECT act_count from category where category_name = '"+str(categoryName)+"';"
+                current_count = int(list(conn.execute(command))[0][0])
+                conn.commit()
+            except:
+                #print("in here 2")
+                return jsonify({}),400
+
+            try:
+                command = "UPDATE category SET act_count='"+str(current_count+1)+"' WHERE category_name='"+str(categoryName)+"';"
+                conn.execute(command)
+                conn.commit()
+
+                return jsonify({}),200
+            except:
+                #print("in here 3")
+                return jsonify({}),400
+
+    elif request.method != 'POST':
+        return jsonify({}),405
+
 
 
 if __name__ == '__main__':

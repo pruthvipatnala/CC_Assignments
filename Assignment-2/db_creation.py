@@ -24,7 +24,8 @@ conn.execute("CREATE TABLE act (\
              caption TEXT NOT NULL,\
              upvotes TEXT NOT NULL,\
              imgB64 TEXT NOT NULL,\
-             PRIMARY KEY(actID));")
+             PRIMARY KEY(actID)),\
+             FOREIGN KEY(category_name) REFERENCES category(category_name);")
 
 conn.commit()
 
