@@ -3,7 +3,6 @@ import requests
 import sqlite3 as sql
 import hashlib
 #import jsonify
-from collections import OrderedDict
 
 
 app = Flask(__name__)
@@ -47,6 +46,17 @@ def remove_category(categoryName):
     conn.execute(command)
     conn.commit()
 
+def check_new_user(username):
+    conn=sql.connect("assign.db")
+    command = "SELECT * FROM user WHERE user_name='"+str(username)+"';"
+    l = list(conn.execute(command))
+    conn.commit()
+    if(len(l)==0):
+        #new user
+        return 1
+    else:
+        #old user
+        return 0
 
 #api 1
 @app.route('/api/v1/users',methods=["POST","GET","DELETE","PUT"])
@@ -56,6 +66,9 @@ def api_add_user():
         userDataInJsonFormat = (request.get_json(force=True))
         print(userDataInJsonFormat)
         user_name = userDataInJsonFormat['username']
+        user_type = check_new_user(user_name)
+        if(user_type==0):
+            return jsonify({}),400
         password = userDataInJsonFormat['password']
         enc_password = hashlib.sha1(password.encode()) 
         password = enc_password.hexdigest()
@@ -63,11 +76,13 @@ def api_add_user():
         print(details)
         add_user(details)
         
-        return jsonify({}),200
-        
-        
+        return jsonify({}),201
+    elif request.method!='POST':
+        return jsonify({}),405
     return render_template('test.html')
         
+
+
 #api 2
 @app.route('/api/v1/users/<username>',methods=["POST","GET","DELETE","PUT"])
 def api_delete_user(username):
@@ -76,9 +91,16 @@ def api_delete_user(username):
         #print(userDataInJsonFormat)
         #user_name = userDataInJsonFormat['username']
         print(username)
+        user_type = check_new_user(username)
+        if user_type==1:
+            #user name does not exist in the database
+            return jsonify({}),400
         remove_user(str(username))
 
         return jsonify({}),200
+
+    elif request.method!='DELETE':
+        return jsonify({}),405
 
     return render_template('test.html')
 

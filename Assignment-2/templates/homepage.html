@@ -93,27 +93,19 @@ button:hover {
 </head>
 <body>
 
-<form name="new_customer" action="{{ url_for('api_add_user') }}" method="POST" style="border:1px solid #ccc">
+<form name="new_customer" action="{{ url_for('api_add_user') }}" enctype='application/json' method="POST" style="border:1px solid #ccc">
 	<div class="container">
      <h1>Sign Up</h1>
      <p>Please fill in this form to create an account.</p>
      <hr>
 
-	<label for="email"><b>Name</b></label>
-	<input type='TEXT' id='name' name='name'></input>
+	<label for="name"><b>Name</b></label>
+	<input type='TEXT' id='name' name='username'></input>
 	<br />
 
     <label for="password"><b>Password</b></label>
     <input type='PASSWORD' id='password' name='password'></input>
     <br />
-
-	<label for="psw"><b>Contact Number</b></label>
-	<input type='TEXT' id='contact_no' name='contact_no' ></input>
-	<br />
-
-	<label for="psw-repeat"><b>E-Mail</b></label>
-	<input type='TEXT' id='email' name='email'></input>
-	<br />
 
 	<div class="clearfix">
 
