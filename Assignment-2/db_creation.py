@@ -24,8 +24,9 @@ conn.execute("CREATE TABLE act (\
              caption TEXT NOT NULL,\
              upvotes TEXT NOT NULL,\
              imgB64 TEXT NOT NULL,\
-             PRIMARY KEY(actID)),\
-             FOREIGN KEY(category_name) REFERENCES category(category_name);")
+             PRIMARY KEY(actID),\
+             FOREIGN KEY(category_name) REFERENCES category(category_name) ON DELETE CASCADE,\
+             FOREIGN KEY(user_name) REFERENCES user(user_name) ON DELETE CASCADE);")
 
 conn.commit()
 
