@@ -219,7 +219,7 @@ def api_list_acts_of_category(categoryName):
             return jsonify(output),200
 
         elif(start!=-1 and end!=-1):
-            if(not(start>=0 and end <len(l) and start<=end)):
+            if(not(start>0 and end <=len(l) and start<=end)):
                 return jsonify({}),413
 
             output = []
