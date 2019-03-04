@@ -99,11 +99,24 @@ def api_add_user():
         details = [user_name,password]
         print(details)
         add_user(details)
-        
+
         return jsonify({}),201
-    elif request.method!='POST':
+
+    elif request.method == 'GET':
+        conn=sql.connect("assign.db")
+        command = "SELECT user_name FROM user;"
+        l = list(conn.execute(command))
+        conn.commit()
+        print(l)
+        if(len(l)==0):
+            return jsonify({}),204
+        #print(l)
+        l = [i[0] for i in l]
+        return jsonify(l),200
+
+    elif request.method!='POST' and request.method!='GET':
         return jsonify({}),405
-    return render_template('test.html')
+    #return render_template('test.html')
         
 
 
