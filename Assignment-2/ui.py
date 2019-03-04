@@ -2,14 +2,19 @@ from flask import Flask,render_template ,redirect, url_for , request, jsonify
 import requests
 import sqlite3 as sql
 import hashlib
+from flask_cors import CORS
 #import jsonify
 
 
 app = Flask(__name__)
-@app.route('/home')
+CORS(app)
+#CORS(app,resources={r"/*":{"origins":"*"}})
+#app.config['JSON_SORT_KEYS'] = False
+#app.config["CORS_SUPPORT_CREDENTIALS"] = True
+@app.route('/')
 def home():
     return render_template("homepage.html")
-
+   
 def add_user(details):
     #details = [user_id,user_name,contact_no,email_id,password]
     conn=sql.connect("assign.db")
@@ -342,7 +347,7 @@ def api_upload_act():
             upvotes = 0
             #The username must exist, otherwise send the appropriate response code from the given list.
             if(check_new_user(username)==1):
-                #print("Yes new user")
+                print("Yes new user")
                 return jsonify({}),400
 
             conn = sql.connect('assign.db')
@@ -357,7 +362,7 @@ def api_upload_act():
                 conn.commit()
 
             except:
-                #print("in here 1")
+                print("in here 1")
                 return jsonify({}),400
 
             try:
@@ -365,7 +370,7 @@ def api_upload_act():
                 current_count = int(list(conn.execute(command))[0][0])
                 conn.commit()
             except:
-                #print("in here 2")
+                print("in here 2")
                 return jsonify({}),400
 
             try:
@@ -375,7 +380,7 @@ def api_upload_act():
 
                 return jsonify({}),200
             except:
-                #print("in here 3")
+                print("in here 3")
                 return jsonify({}),400
 
     elif request.method != 'POST':
@@ -384,4 +389,4 @@ def api_upload_act():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port = 5001)
+    app.run(debug=True,host='0.0.0.0')

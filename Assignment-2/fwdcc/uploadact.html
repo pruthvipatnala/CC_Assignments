@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style >
+	a{
+	text-decoration:NONE;
+	padding: 10px;
+	font-family: "Segoe UI",Arial,sans-serif;
+	}
+	a:hover{
+		color: orange;
+	}
+
+	
+	input{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 30%;
+  background-color: #0389ff;
+  color: white;
+  padding: 14px 20px;
+  margin: auto;
+  margin-top: 30px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #276ba7;
+}
+
+div.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 50%;
+  margin: auto; 
+}
+
+.header-right{
+		   	  text-decoration:NONE;
+			  float: right;
+			  padding: 18px 100px 0 0;
+			  font-weight: bold;
+			  display: inline;
+		}
+</style>
+</head>
+<body>
+
+<div class="w3-top">
+<div class="w3-bar w3-white w3-wide w3-padding w3-card" style="">
+	<h1 style="display: inline;">SelfieLess<i>Acts</i></h1>
+	<div class="header-right">
+	    <a href="mainpage.html">Home</a>
+	</div>
+</div>
+</div>
+
+
+
+<div class="container" style="margin-top: 150px;margin-bottom: 50px">
+<h2 style="text-align: center;">ACT DETAILS</h2>
+  <form method="POST">
+    <label>ActId</label>
+    <input type="text" id="actId" name="actid" placeholder="ID" required>
+
+	<label>Username</label>
+    <input type="text" id="username" name="uname" placeholder="username" required>
+
+	<label>Timestamp</label>
+    <input type="text" id="timestamp" name="time" placeholder="TimeStamp" required>
+
+	<label>Caption</label>
+    <input type="text" id="caption" name="caption" placeholder="caption" required>
+
+	<label>Category Name</label>
+    <input type="text" id="categoryName" name="catname" placeholder="Category name" required>
+
+    <label>Image file</label>
+    <input type="text" id="imgB64" name="img" placeholder="imgB64" required>
+    <!--<input type="file" id="imgB64" onchange="encodeImageFileAsURL(this)" accept="image/*" name="img" required>-->
+  
+    <input type="submit" value="Submit" onclick="uploadAct()">
+  </form>
+</div>
+
+<script>
+
+var ip = "100.25.106.87:8000";
+/*function encodeImageFileAsURL(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function() {
+    console.log('RESULT', reader.result)
+  }
+  reader.readAsDataURL(file);
+}*/
+
+function uploadAct() {
+	
+	var temp = ['actId','username','timestamp','caption','categoryName',"imgB64"];
+	var data = {};
+	for(i in temp){
+		var x = document.getElementById(temp[i]).value;
+		data[temp[i]]=x;
+
+	}
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.open("POST", `http://${ip}/api/v1/acts`, true);
+	xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	xhttp.onreadystatechange = function() {
+		
+		if (this.readyState == 4) {
+			if(this.status==400){
+				alert(this.status);	
+			}
+			else{
+				console.log(this.status);
+			}
+				   
+			}
+		
+	 };
+
+	 xhttp.send(JSON.stringify(data));
+	
+}
+
+
+</script>
+
+</body>
+</html>

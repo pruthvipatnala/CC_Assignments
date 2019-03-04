@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<title>Acts</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI",Arial,sans-serif}
+.w3-bar-block .w3-bar-item {padding:20px}
+
+a{
+  text-decoration:NONE;
+}
+img {
+	height:220px;
+  width:100%;
+}
+.button {
+  background-color: #0389ff;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; 
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color:#276ba7; 
+  color: white;
+}
+.w3-quarter{
+  height:400px;
+  margin:0 0px 25px 72px;
+  text-align: center;
+  padding: 0 0 10px 0 !important;
+  box-shadow: 5px 5px 5px #eae2e2;
+  position: relative;
+}
+.w3-quarter .inner-div{
+  bottom: 0;
+  left:0;
+  right: 0;
+  padding-bottom: 10px;
+  position: absolute;
+}
+.home{
+  text-decoration:NONE;
+  right:0;
+  position: absolute;
+  padding: 18px 100px 0 0;
+  font-weight: bold;
+}
+.home:hover{
+  color: orange;
+}
+@media only screen and (max-width: 600px) {
+  .home{
+    display: NONE;
+  }
+}
+
+@media only screen and (max-width: 426px) {
+  .w3-quarter{
+  margin: 10px 0 0 0;
+}
+}
+
+.vote{
+  padding-bottom: 10px;
+}
+.vote p {
+  font-size: 25px;
+  display: inline;
+}
+
+.vote h3{
+  display: inline;
+  font-weight: bold;
+}
+
+#acts{
+
+}
+</style>
+<body onload="listacts()">
+
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card" style="" >
+    <h1 style="padding-left: 10px;display: inline;width: 70%">SelfieLess<i>Acts</i></h1>
+    <a href="mainpage.html"class="home">Home</a>
+  </div>
+</div>
+
+<div class="w3-content w3-padding" style="max-width:1564px;margin-top:100px">
+
+  <div class="w3-container w3-padding-32">
+    <h2 class="w3-border-bottom w3-border-light-grey w3-padding-16" id="catname"></h2>
+    <form method="GET" style="margin:20px;">
+        <label>Start Range</label>
+        <input type="number" name="quantity" id="start" placeholder="select" min="1" max="1000">
+        <label>End Range</label>
+        <input type="number" name="quantity" id="end" placeholder="select" min="1" max="1000">
+        <input class="button" style="margin-left: 10px;" type="button" name="submit" value="submit" onclick="listActsRange()">
+    </form> 
+  </div>
+
+<div class="w3-row-padding" id="acts" style="padding-bottom:40px"> 
+</div>
+
+
+</div>
+
+
+<div class="w3-container w3-padding-32" style="text-align: center;">
+    <button class="button" style="" type="button"><a href="uploadact.html">Upload An Act</a></button>
+
+</div>
+ 
+<footer class="w3-center w3-black w3-padding-16">
+  <p> © Copyright 2019 Shangri La - All Rights Reserved</p>
+</footer>
+
+
+<script>
+  /*var obj = [{
+      "actId": 1,
+      "username": 'nikhil',
+      "timestamp": "DD-MM-YYYY:SS-MM-HH",
+      "caption": "Let Me Tell You About This Steak",
+      "upvotes": 25,
+      "imgB64":"acts/helping-animals/act1.jpg"
+  }
+  ]*/
+
+var ip = "3.93.246.22:5000";
+//var data = JSON.parse(window.localStorage.actsdata); 
+var catname = window.localStorage.catName;
+document.getElementById("catname").innerHTML = catname;
+console.log(catname);
+
+function listacts() {
+  console.log("hi");
+  var xhttp1 = new XMLHttpRequest();
+  //console.log("http://127.0.0.1:5000/api/v1/categories/" + catname.toString() + "/acts")
+  var url1 =  `http://${ip}/api/v1/categories/${catname.toString()}/acts`;
+  xhttp1.open("GET",url1, true);
+  xhttp1.onload = function() {
+    var acts = JSON.parse(xhttp1.responseText);
+    console.log(acts);
+    if (xhttp1.readyState == 4) {
+      if(this.status==400){
+        alert(`Response status : ${xhttp.status}`); 
+      }
+      console.log(`Response status : ${xhttp1.status}`);
+
+      dispActs(acts);
+    } 
+    else {
+      console.error("categories");
+    }
+  };
+  xhttp1.send();
+
+}
+
+function listActsRange() {
+
+  var startRange = document.getElementById("start").value;
+  var endRange = document.getElementById("end").value;
+  if(startRange=='' || endRange==''){
+    console.error("Ranges not selected");
+  }
+  else{
+    var xhttp = new XMLHttpRequest();
+  var url =  `http://${ip}/api/v1/categories/${catname.toString()}/acts?start=${startRange}&end=${endRange}`;
+  console.log(url);
+  xhttp.open("GET",url, true);
+  xhttp.onload = function() {
+    var acts = JSON.parse(xhttp.responseText);
+    if (xhttp.readyState == 4) {
+      if(this.status==400){
+        alert(`Response status : ${xhttp.status}`); 
+      }
+      console.log(`Response status : ${xhttp.status}`);
+      console.log(acts);
+      var act_dom = document.getElementById('acts').childNodes
+      for(var i=act_dom.length-1;i >= 0;i--){
+            act_dom[i].parentNode.removeChild(act_dom[i]);
+        }
+      dispActs(acts);
+    } 
+    else {
+      console.error("categories");
+    }
+  };
+  xhttp.send();
+  
+  }
+  
+}
+
+function upvote(e) {
+  var dom = e.target.parentNode.parentNode;
+  var actid = dom.getAttribute("id");
+
+  actid = JSON.stringify([parseInt(actid)]);
+  var xhttp = new XMLHttpRequest();
+  var url =  `http://${ip}/api/v1/acts/upvote`;
+
+  xhttp.open("POST",url, true);
+  xhttp.setRequestHeader( "Content-Type", "application/json;charset=UTF-8" );
+  xhttp.onload = function() {
+    var acts = JSON.parse(xhttp.responseText);
+    if (xhttp.readyState == 4) {
+      if(this.status==400){
+        alert(`Response status : ${xhttp.status}`); 
+      }
+      console.log(`Response status : ${xhttp.status}`);
+      var vote = dom.children[2].lastChild;
+      vote.textContent= parseInt(vote.textContent) + 1;
+      console.log(acts);
+    } 
+    else {
+      console.error("categories");
+    }
+  };
+  xhttp.send(actid);
+
+}
+
+function remact(e) {
+  var dom = e.target.parentNode.parentNode;
+  var actid = dom.getAttribute("id");
+  var xhttp = new XMLHttpRequest();
+  var url =  `http://${ip}/api/v1/acts/${actid}`;
+
+  xhttp.open("DELETE",url, true);
+  xhttp.onload = function() {
+    var acts = JSON.parse(xhttp.responseText);
+    if (xhttp.readyState == 4) {
+      if(this.status==400){
+        alert(`Response status : ${xhttp.status}`); 
+      }
+      console.log(`Response status : ${xhttp.status}`);
+      dom.parentNode.removeChild(dom);
+      console.log(acts);
+    } 
+    else {
+      console.error("categories");
+    }
+  };
+  xhttp.send();
+
+}
+
+
+function dispActs(obj = data) {
+  var act_dom = document.getElementById("acts");
+  if (obj.length==0){
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "No Acts are available for this topic";
+    act_dom.appendChild(h2);
+  }
+  else{
+
+
+      for(act in obj){
+          var div = document.createElement("div");
+          div.setAttribute("class","w3-quarter");
+          div.setAttribute("id",obj[act]['actId']);
+
+          var img = document.createElement("img");
+          //var imgURL = window.atob(obj[act]["imgB64"]);
+          var imgURL = 'data:image/png;base64,' + obj[act]["imgB64"];
+          console.log(imgURL);
+
+          img.setAttribute("src",imgURL);
+          img.setAttribute("alt","No Img");
+
+          var h3 = document.createElement("h3");
+          h3.innerHTML = obj[act]['caption'];
+
+          var div1 = document.createElement("div");
+          div1.setAttribute("class","vote");
+
+          var inner_h3 = document.createElement("h3");
+          inner_h3.innerHTML = "Votes : ";
+
+          var p = document.createElement("h3");
+          p.innerHTML = obj[act]['upvotes'];
+
+          div1.appendChild(inner_h3);
+          div1.appendChild(p);
+
+          var div2 = document.createElement("div");
+          div2.setAttribute("class","inner-div");
+
+          var btn1 = document.createElement("button");
+          btn1.setAttribute("class","button");
+          btn1.setAttribute("onclick","upvote(event)");
+          btn1.innerHTML = "Upvote";
+
+
+          var btn2 = document.createElement("button");
+          btn2.setAttribute("class","button");
+          btn2.setAttribute("onclick","remact(event)");
+          btn2.innerHTML = "Delete";
+
+          div2.appendChild(btn1);
+          div2.appendChild(btn2);
+
+
+          var temp = [img,h3,div1,div2];
+          for(i in temp){
+            div.appendChild(temp[i]);
+          }
+
+          act_dom.appendChild(div);
+  }  
+  }
+  
+}
+
+</script>
+</body>
+</html>

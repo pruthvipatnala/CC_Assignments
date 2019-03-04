@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+	<title>SelfieLessActs</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<style>
+		a{
+			text-decoration:NONE;
+			padding: 10px;
+			font-family: "Segoe UI",Arial,sans-serif;
+		}
+		a:hover{
+			color: orange;
+		}
+
+		.header-right{
+		   	  text-decoration:NONE;
+			  float: right;
+			  padding: 18px 100px 0 0;
+			  font-weight: bold;
+			  display: inline;
+		}
+
+		@media screen and (max-width: 420px) {
+
+		  .header-right {
+		    float: none;
+		  }
+		}
+
+		table {
+		  border-collapse: collapse;
+		  border-spacing: 0;
+		  width: 100%;
+		  border: 1px solid #ddd;
+		}
+
+		th, td {
+		  text-align: center;
+		   border: 1px solid #ddd;
+		  padding: 16px;
+		}
+
+		tr:nth-child(even) {
+		  background-color: #f2f2f2
+		}
+
+		.button {
+		  border: none;
+		  color: white;
+		  //padding: 16px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 2px 10px;
+		  -webkit-transition-duration: 0.4s; /* Safari */
+		  transition-duration: 0.4s;
+		  cursor: pointer;
+		}
+
+		.button1 {
+		  background-color: #15a9ff; 
+		  color: black; 
+		  border: 2px solid #15a9ff;
+		}
+
+		.button1:hover {
+		  background-color: #15a9ff;
+		  color: white;
+		}
+
+		.button2 {
+		  background-color: red; 
+		  color: black; 
+		  border: 2px solid #f44336;
+		}
+
+		.button2:hover {
+		  background-color: #f44336;
+		  color: white;
+		}
+
+
+
+	</style>
+
+	<body onload="listcat()">
+		
+		<div class="w3-top">
+			<div class="w3-bar w3-white w3-wide w3-padding w3-card" style="" >
+				<h1 style="display: inline;">SelfieLess<i>Acts</i></h1>
+				<div class="header-right">
+				    <a href="mainpage.html">Home</a>
+				    <a href="adduser.html">SignUp</a>
+				    <a href="#" onclick="removeuser()">Delete</a>
+  				</div>
+			</div>
+		</div>
+		
+		<div class="w3-content w3-padding" style="max-width:1564px;margin-top:100px">
+
+		  <div class="w3-container w3-padding-32" id="projects">
+		    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Categories</h3>
+		  </div>
+		  	
+			<div class="w3-row-padding" id="catdiv" style=";padding-bottom:40px">
+		  	</div>
+
+		  	<div class="w3-row-padding" style="">
+				<button class="button button1" onclick="addcat()">Add a Category</button>
+		  	</div>
+			
+		</div>
+		
+
+		<footer class="w3-center w3-black w3-padding-16" style="margin-top: 10px">
+			<p> © Copyright 2019 Shangri La - All Rights Reserved</p>
+		</footer>
+		
+<script>
+
+var ip = "100.25.106.87:8000";
+function removeuser() {
+	
+	var user = prompt('Enter the username to remove:');
+	if(user==null || user==''){
+		alert("user not defined");
+		console.error("user is not defined");
+	}
+	else{
+		var xhttp = new XMLHttpRequest();
+	var url =  `http://${ip}/api/v1/users/${user.toString()}`;
+	xhttp.open("DELETE",url, true);
+	xhttp.onload = function() {
+		var users = JSON.parse(xhttp.responseText);
+		if (xhttp.readyState == 4) {
+			if(this.status==400){
+				alert(`Response status : ${xhttp.status}`);	
+			}
+			else{
+				console.log(this.status);
+			}
+			console.log(`Response status : ${xhttp.status}`);
+		} 
+		else {
+			console.error(users);
+		}
+	};
+	xhttp.send();
+	
+	}
+	
+}
+
+function listnoacts(e) {
+	
+	var cat = e.target.parentNode.parentNode.parentNode.getAttribute("id");
+	console.log(cat);
+	window.localStorage.setItem("catName", cat);
+
+	var xhttp2 = new XMLHttpRequest();
+	var url2 =  `http://${ip}/api/v1/categories/${cat.toString()}/acts/size`;
+	xhttp2.open("GET",url2, true);
+	xhttp2.onload = function() {
+		var no_acts = JSON.parse(xhttp2.responseText);
+		if (xhttp2.readyState == 4) {
+			if(this.status==400){
+				alert(`Response status : ${xhttp2.status}`);	
+			}
+			console.log(`Response status : ${xhttp2.status}`);
+			console.log(no_acts);
+		} 
+		else {
+			console.error("categories");
+		}
+	};
+	xhttp2.send();
+	
+}
+
+
+function listcat() {
+	
+	var xhttp = new XMLHttpRequest();
+	var url =  `http://${ip}/api/v1/categories`;
+	xhttp.open("GET",url, true);
+	xhttp.onload = function() {
+		var categories = JSON.parse(xhttp.responseText);
+		if (xhttp.readyState == 4) {
+			if(this.status==400){
+				alert(`Response status : ${xhttp.status}`);	
+			}
+			
+			console.log(`Response status : ${xhttp.status}`);
+			addtable(categories);
+		} 
+		else {
+			console.error("categories");
+		}
+	};
+	xhttp.send();
+	
+}
+
+function addcat() {
+	var cat = prompt("Please enter a Category");
+	//alert(cat);
+	if(cat!=''){
+		cat = JSON.stringify([cat]);
+		var xhttp = new XMLHttpRequest();
+		var url =  `http://${ip}/api/v1/categories`;
+		xhttp.open("POST",url, true);
+		xhttp.setRequestHeader( "Content-Type", "application/json;charset=UTF-8" );
+		xhttp.onload = function() {
+			if (xhttp.readyState == 4) {
+				if(this.status==400){
+				alert(`Response status : ${xhttp.status}`);	
+			}
+				console.log(`Response status : ${xhttp.status}`);
+				console.table(this.responseText);
+				var p = document.getElementById("catTab");
+				p.parentNode.removeChild(p);
+				listcat();
+			} 
+			else {
+				console.error("categories");
+			}
+		};
+		xhttp.send(cat);
+	}
+	else{
+		console.error("Please add a category name");
+	}
+	
+	
+}
+
+function removecat(e) {
+
+	var cat = e.target.parentNode.parentNode.getAttribute("id");
+	//alert(cat);
+	var cof = confirm("Do you want to delete?");
+	if(cof){
+		var xhttp = new XMLHttpRequest();
+		var url =  `http://${ip}/api/v1/categories/${cat.toString()}`;
+		xhttp.open("DELETE",url, true);
+		xhttp.onload = function() {
+			if (xhttp.readyState == 4) {
+				if(this.status==400){
+				alert(`Response status : ${xhttp.status}`);	
+			}
+				console.log(`Response status : ${xhttp.status}`);
+				console.table(this.responseText);
+				var p = document.getElementById(cat);
+				p.parentNode.removeChild(p);
+				//listcat();
+			} 
+			else {
+				console.error("categories");
+			}
+		};
+		xhttp.send();
+	}
+	else{
+		console.log('no delete');
+	}
+	
+	
+}
+
+function addtable(categories){
+	console.log(categories);
+	var tbl = document.createElement("table");
+	tbl.setAttribute("id",'catTab');
+
+	var row = document.createElement("tr");
+	var c1 = document.createElement("th");
+	var cellText1 = document.createTextNode("Categories");
+	c1.appendChild(cellText1);
+	row.appendChild(c1);
+
+	c1 = document.createElement("th");
+	cellText1 = document.createTextNode("No. of Acts");
+	c1.appendChild(cellText1);
+	row.appendChild(c1);
+
+	c1 = document.createElement("th");
+	cellText1 = document.createTextNode("Actions");
+	c1.appendChild(cellText1);
+	row.appendChild(c1);
+	
+	tbl.appendChild(row);
+
+	for(key in categories){
+	   		    var row = document.createElement("tr");
+	   		    row.setAttribute('id',key);
+
+			    var c1 = document.createElement("td");
+			    var cellText1 = document.createTextNode(key);
+			    c1.appendChild(cellText1);
+			    row.appendChild(c1);
+			    
+			    var c2 = document.createElement("td");
+			    var cellText2 = document.createTextNode(categories[key]);
+			    c2.appendChild(cellText2);
+			    row.appendChild(c2);
+
+			    var c3 = document.createElement("td");
+			    var btn1 = document.createElement("button");
+			    btn1.setAttribute('class','button button1');
+			    btn1.setAttribute('onclick','listnoacts(event)');
+
+			    var a = document.createElement("a");
+			    a.setAttribute("href","disp_acts.html");
+			    a.innerHTML = "Show";	
+			    btn1.appendChild(a);
+			    c3.appendChild(btn1);
+
+			    var btn2 = document.createElement("button");
+			    btn2.setAttribute('class','button button2');
+			    btn2.setAttribute('onclick','removecat(event)');
+			    btn2.innerHTML = "Delete";
+			    c3.appendChild(btn2);
+			    
+			    row.appendChild(c3);
+
+			    tbl.appendChild(row);
+			}
+
+	var catdiv = document.getElementById("catdiv");
+	catdiv.appendChild(tbl);
+
+  	}
+
+</script>
+
+	</body>
+</html>
+

@@ -18,7 +18,7 @@ Ans :
 
 4)JSON (JavaScript Object Notation) is a text-based data storage format that is designed to be easy to read for both humans and machines. JSON is generally the most common format for returning data through an API, XML being the second most common.
 
-
+5) A Flask extension for handling Cross Origin Resource Sharing (CORS), making cross-origin AJAX possible.
 
 curl command : 
 
@@ -50,7 +50,7 @@ curl -i "Content-Type: application/json"   --request 'GET'   --data '{}' --url '
 
 API 11:
 
-curl -i "Content-Type: application/json" --request 'POST' --data '{"actId": 1234,"username": "john_doe","timestamp": "DD-MM-YYYY:SS-MM-HH","caption": "caption text","categoryName": "category_xyz","imgB64":"TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvb"}' http://localhost:5001/api/v1/acts
+curl -i "Content-Type: application/json" --request 'POST' --data '{"actID": 1234,"username": "john_doe","timestamp": "DD-MM-YYYY:SS-MM-HH","caption": "caption text","categoryName": "category_xyz","imgB64":"TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvb"}' http://localhost:5001/api/v1/acts
 
 
 
