@@ -14,7 +14,16 @@ CORS(app)
 @app.route('/')
 def home():
     return render_template("homepage.html")
-   
+
+def is_sha1(maybe_sha):
+    if len(maybe_sha) != 40:
+        return False
+    try:
+        sha_int = int(maybe_sha, 16)
+    except ValueError:
+        return False
+    return True
+
 def add_user(details):
     #details = [user_id,user_name,contact_no,email_id,password]
     conn=sql.connect("assign.db")
@@ -94,8 +103,10 @@ def api_add_user():
         if(user_type==0):
             return jsonify({}),400
         password = userDataInJsonFormat['password']
-        enc_password = hashlib.sha1(password.encode()) 
-        password = enc_password.hexdigest()
+        #enc_password = hashlib.sha1(password.encode()) 
+        #password = enc_password.hexdigest()
+        if(is_sha1(password)==False):
+            return jsonify({}),400   
         details = [user_name,password]
         print(details)
         add_user(details)
