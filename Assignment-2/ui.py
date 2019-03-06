@@ -360,7 +360,7 @@ def api_remove_act(actID):
 def api_upload_act():
     if request.method=='POST':
         userDataInJsonFormat = (request.get_json(force=True))
-        actID = userDataInJsonFormat['actID']
+        actID = userDataInJsonFormat['actId']
         username = userDataInJsonFormat['username']
         timestamp = userDataInJsonFormat['timestamp']
         caption = userDataInJsonFormat['caption']
@@ -406,7 +406,7 @@ def api_upload_act():
                 conn.execute(command)
                 conn.commit()
 
-                return jsonify({}),200
+                return jsonify({}),201
             except:
                 print("in here 3")
                 return jsonify({}),400
