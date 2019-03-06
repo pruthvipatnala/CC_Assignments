@@ -3,6 +3,7 @@ import requests
 import sqlite3 as sql
 import hashlib
 from flask_cors import CORS
+import re
 #import jsonify
 
 
@@ -363,6 +364,10 @@ def api_upload_act():
         actID = userDataInJsonFormat['actId']
         username = userDataInJsonFormat['username']
         timestamp = userDataInJsonFormat['timestamp']
+        pattern = re.compile("\d+-\d+-\d\d\d\d:\d+-\d+-\d+")
+        if(pattern.match(timestamp)==None):
+            return jsonify({}),400
+
         caption = userDataInJsonFormat['caption']
         categoryName = userDataInJsonFormat['categoryName']
         imgB64 = userDataInJsonFormat['imgB64']
