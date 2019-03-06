@@ -226,6 +226,10 @@ def api_list_acts_of_category(categoryName):
         command = "SELECT * FROM act WHERE category_name= '"+str(categoryName)+"';"
         l = list(conn.execute(command))
         conn.commit()
+        if(len(l)==0 and check_new_category(categoryName)==0):
+            return jsonify({}),204
+
+
         #print(l)
         start = request.args.get('start',type = int,default=-1)
         end = request.args.get('end',type = int,default=-1)
