@@ -253,7 +253,7 @@ def api_list_acts_of_category(categoryName):
 
             for i in l:
                 #print(i)
-                d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
+                d = {'actId':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
                 output.append(d)
 
             #print(output)
@@ -261,11 +261,11 @@ def api_list_acts_of_category(categoryName):
 
         elif(start!=-1 and end!=-1):
             if(not(start>0 and end <=len(l) and start<=end)):
-                return jsonify({}),413
+                return jsonify({}),400
 
             output = []
-            for i in l[start:end+1]:
-                d = {'actID':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
+            for i in l[start-1:end]:
+                d = {'actId':i[1],"username":i[2],'timestamp':i[3],'caption':i[4],'upvotes':i[5],'imgB64':i[6]}
                 output.append(d)
 
             return jsonify(output),200
