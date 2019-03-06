@@ -4,6 +4,7 @@ import sqlite3 as sql
 import hashlib
 from flask_cors import CORS
 import re
+import base64
 #import jsonify
 
 
@@ -24,6 +25,12 @@ def is_sha1(maybe_sha):
     except ValueError:
         return False
     return True
+
+def isBase64(s):
+    try:
+        return base64.b64encode(base64.b64decode(s)) == s
+    except Exception:
+        return False
 
 def add_user(details):
     #details = [user_id,user_name,contact_no,email_id,password]
@@ -371,6 +378,10 @@ def api_upload_act():
         caption = userDataInJsonFormat['caption']
         categoryName = userDataInJsonFormat['categoryName']
         imgB64 = userDataInJsonFormat['imgB64']
+        imgB64_byte = imgB64.encode('utf-8')
+        if(isBase64(imgB64_byte)==False):
+            return jsonify({}),400
+
         try:
             upvotes = userDataInJsonFormat['upvotes']
             print(upvotes)
