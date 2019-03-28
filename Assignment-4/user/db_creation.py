@@ -13,3 +13,7 @@ conn.execute("CREATE TABLE count (\
 			count TEXT NOT NULL);")
 
 conn.commit()
+
+conn.execute("INSERT INTO count VALUES('0');")
+
+conn.commit()

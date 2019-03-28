@@ -57,9 +57,41 @@ def check_new_user(username):
         #old user
         return 0
 
+
+def update_counter():
+    conn=sql.connect("assign.db")
+    command = "SELECT count from count;"
+    l = list(conn.execute(command))
+    conn.commit()
+    current_count = int(l[0][0])
+    updated_count = current_count + 1
+
+    command = "DELETE FROM count;"
+    conn.execute(command)
+    conn.commit()
+
+    command = "INSERT INTO count VALUES('"+str(updated_count)+"');"
+    conn.execute(command)
+    conn.commit()
+
+def reset_counter():
+    conn=sql.connect("assign.db")
+    
+    updated_count = 0
+
+    command = "DELETE FROM count;"
+    conn.execute(command)
+    conn.commit()
+
+    command = "INSERT INTO count VALUES('"+str(updated_count)+"');"
+    conn.execute(command)
+    conn.commit()
+
+
 #api 1
 @app.route('/api/v1/users',methods=["POST","GET","DELETE","PUT"])
 def api_add_user():
+    update_counter()
     if request.method == 'POST':
         #print("Hello")
         userDataInJsonFormat = (request.get_json(force=True))
@@ -100,6 +132,7 @@ def api_add_user():
 #api 2
 @app.route('/api/v1/users/<username>',methods=["POST","GET","DELETE","PUT"])
 def api_delete_user(username):
+    update_counter()
     if request.method == 'DELETE':
         #userDataInJsonFormat = (request.get_json())
         #print(userDataInJsonFormat)
@@ -117,6 +150,25 @@ def api_delete_user(username):
         return jsonify({}),405
 
     return render_template('test.html')
+
+
+@app.route('/api/v1/_count',methods=["POST","GET","DELETE","PUT"])
+def api_counter():
+    conn=sql.connect("assign.db")
+    if request.method == 'GET':
+        command = "SELECT count from count;"
+        l = list(conn.execute(command))
+        conn.commit()
+        print(l[0][0])
+        return jsonify([int(l[0][0])]),200
+
+    elif request.method == 'DELETE':
+        reset_counter()
+
+        return jsonify({}),200
+
+    else:
+        return jsonify({}),405
 
 
 

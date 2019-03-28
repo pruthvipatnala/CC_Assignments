@@ -65,9 +65,39 @@ def check_new_category(categoryName):
 		#old category
 		return 0
 
+def update_counter():
+    conn=sql.connect("assign.db")
+    command = "SELECT count from count;"
+    l = list(conn.execute(command))
+    conn.commit()
+    current_count = int(l[0][0])
+    updated_count = current_count + 1
+
+    command = "DELETE FROM count;"
+    conn.execute(command)
+    conn.commit()
+
+    command = "INSERT INTO count VALUES('"+str(updated_count)+"');"
+    conn.execute(command)
+    conn.commit()
+
+def reset_counter():
+    conn=sql.connect("assign.db")
+    
+    updated_count = 0
+
+    command = "DELETE FROM count;"
+    conn.execute(command)
+    conn.commit()
+
+    command = "INSERT INTO count VALUES('"+str(updated_count)+"');"
+    conn.execute(command)
+    conn.commit()
+
 
 @app.route('/api/v1/categories', methods=["POST","GET","DELETE","PUT"])
 def api_list_all_categories():
+	update_counter()
 	if request.method == 'GET':
 		userDataInJsonFormat = (request.get_json())
 		print(userDataInJsonFormat)
@@ -111,6 +141,7 @@ def api_add_category():
 #api 5
 @app.route('/api/v1/categories/<categoryName>' , methods=["POST","GET","DELETE","PUT"])
 def api_remove_category(categoryName):
+	update_counter()
 	if request.method == 'DELETE':
 		if check_new_category(categoryName)==1:
 			return jsonify({}),400
@@ -129,6 +160,7 @@ def api_remove_category(categoryName):
 
 @app.route('/api/v1/categories/<categoryName>/acts', methods=["POST","GET","DELETE","PUT"])
 def api_list_acts_of_category(categoryName):
+	update_counter()
 	if request.method == 'GET':
 		conn=sql.connect("assign.db")
 		command = "SELECT * FROM act WHERE category_name= '"+str(categoryName)+"';"
@@ -182,6 +214,7 @@ def api_list_acts_of_category(categoryName):
 #api 7
 @app.route('/api/v1/categories/<categoryName>/acts/size', methods=["POST","GET","DELETE","PUT"])
 def api_number_of_act_in_a_category(categoryName):
+	update_counter()
 	if request.method=="GET":
 		conn=sql.connect("assign.db")
 		command = "SELECT * FROM category WHERE category_name= '"+str(categoryName)+"';"
@@ -207,6 +240,7 @@ def api_number_of_act_in_a_category(categoryName):
 #api 9
 @app.route('/api/v1/acts/upvote' , methods=["POST","GET","DELETE","PUT"])
 def api_upvote():
+	update_counter()
 	if request.method=='POST':
 		userDataInJsonFormat = request.get_json(force=True)
 		actID = str(userDataInJsonFormat[0])
@@ -230,6 +264,7 @@ def api_upvote():
 #api 10
 @app.route('/api/v1/acts/<int:actID>' , methods=["POST","GET","DELETE","PUT"])
 def api_remove_act(actID):
+	update_counter()
 	if request.method== "DELETE":
 
 		conn = sql.connect('assign.db')
@@ -266,6 +301,7 @@ def api_remove_act(actID):
 #api 11
 @app.route('/api/v1/acts' , methods=["POST","GET","DELETE","PUT"])
 def api_upload_act():
+	update_counter()
 	if request.method=='POST':
 		userDataInJsonFormat = (request.get_json(force=True))
 		actID = userDataInJsonFormat['actId']
@@ -338,6 +374,24 @@ def api_upload_act():
 	elif request.method != 'POST':
 		return jsonify({}),405
 
+
+@app.route('/api/v1/_count',methods=["POST","GET","DELETE","PUT"])
+def api_counter():
+    conn=sql.connect("assign.db")
+    if request.method == 'GET':
+        command = "SELECT count from count;"
+        l = list(conn.execute(command))
+        conn.commit()
+        print(l[0][0])
+        return jsonify([int(l[0][0])]),200
+
+    elif request.method == 'DELETE':
+        reset_counter()
+
+        return jsonify({}),200
+
+    else:
+        return jsonify({}),405
 
 
 if __name__ == '__main__':
