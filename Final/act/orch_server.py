@@ -7,6 +7,11 @@ import re
 import base64
 import json
 import time
+import docker
+import os
+import signal
+import subprocess
+from threading import Thread
 
 app = Flask(__name__)
 CORS(app)
@@ -16,21 +21,25 @@ CORS(app)
 def orchestrator(path):
 	global container_i
 	which_container = container_i
-	container_i = (container_i+1)%3
+	container_i = (container_i+1)%container_count
 	#url = path.replace(':80/',':'+str(8000+which_container)+"/")
 	url = "http://localhost:" + str(8000+which_container)+"/" +path
 	print(url)
+	#return redirect(url)
 	if request.method == "GET":
-		time.sleep(1)
+		#time.sleep(1)
 		r = requests.get(url).status_code
 		return jsonify({}),r
 	elif request.method == "POST":
-		time.sleep(1)
+		#time.sleep(1)
 		#url = path.replace(':80/',':'+str(8000+which_container)+"/")
-		r = requests.post(url, data = request.get_json(force=True)).status_code
+		try:
+			r = requests.post(url, data = request.get_json(force=True)).status_code
+		except:
+			r = requests.post(url, data = None).status_code
 		return jsonify({}),r
 	elif request.method == "DELETE":
-		time.sleep(1)
+		#time.sleep(1)
 		#url = path.replace(':80/',':'+str(8000+which_container)+"/")
 		r = requests.delete(url).status_code
 		return jsonify({}),r
@@ -161,7 +170,59 @@ def api_upload_act():
 		return jsonify({}),405
 '''
 
+def run_container(port_no):
+	global container_count
+	run_cmd = "sudo docker run -d -p "+str(port_no)+":5000 -it acts --name acts"+str(port_no)
+	container_count+=1
+	pro = subprocess.call(run_cmd, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+	return
+
+
 if __name__ == '__main__':
-	urls = ["http://localhost:8000","http://localhost:8001","http://localhost:8002"]
+	#urls = ["http://localhost:8000","http://localhost:8001","http://localhost:8002"]
+	#client = docker.from_env()
+	#creating initial 3 containers
+	#cont1 = docker.create('acts',detach=True,entrypoint='acts_api/entrypoint.sh')
+	#cont2 = docker.create('acts',detach=True,entrypoint='acts_api/entrypoint.sh')
+	#cont3 = docker.create('acts',detach=True,entrypoint='acts_api/entrypoint.sh')
+	#image = client.images.get('acts')
+	container_count = 0
+	port_no = 8000
+	#container1 = client.containers.run(image,detach=True,ports = {'5000/tcp': str(port_no0)})
+	#port_no+=1
+	#container2 = client.containers.run(image,detach=True,ports = {'5000/tcp': str(port_no1)})
+	#port_no+=1
+	#container3 = client.containers.run(image,detach=True,ports = {'5000/tcp': str(port_no2)})
+
+	#run a container
+	#for i in range(8000,8004):
+		#run_cmd = "sudo docker run -p "+str(i)+":5000 -it acts"
+		#os.spawnl(os.P_DETACH, run_cmd)
+
+	'''
+	run_cmd = "sudo docker run -d -p "+str(port_no)+":5000 -it acts"
+	#time.sleep(1)
+	pro1 = subprocess.Popen(run_cmd, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+	port_no+=1
+	run_cmd = "sudo docker run -d -p "+str(port_no)+":5000 -it acts"
+	pro2 = subprocess.Popen(run_cmd, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+	port_no+=1
+	run_cmd = "sudo docker run -d -p "+str(port_no)+":5000 -it acts"
+	pro3 = subprocess.Popen(run_cmd, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+	#os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
+	'''
+
+	'''
+	container_threads = []
+	for i in range(8000,8004):
+		tid = Thread(target=run_container, args=(i,))
+		tid.start()
+		container_threads.append(tid)
+	'''
+	active_containers = []
+	for i in range(8000,8003):
+		run_container(i)
+		
+
 	container_i = 0
-	app.run(debug=True,host='0.0.0.0')
+	app.run(debug=True,host='0.0.0.0',port = 80,threaded=True)

@@ -11,7 +11,7 @@ import json
 
 
 
-url="http://54.89.224.232:80/api/v1/users"
+url="http://54.92.213.23:80/api/v1/users"
 app = Flask(__name__)
 CORS(app)
 
@@ -353,7 +353,7 @@ def api_upload_act():
 			print("Failed because of image base64 issue")
 			return jsonify({}),400
 
-		if not username in json.loads(requests.get("http://54.89.224.232/api/v1/users").text):
+		if not username in json.loads(requests.get("http://54.92.213.23/api/v1/users").text):
 			print("invalid user")
 			return jsonify({}),400
 		try:
@@ -437,7 +437,7 @@ def health_checker():
 		stat_codes = []
 		#api 1 check - create user
 		data = {"username":"test_user","password":"3d725109c7e7c0bfb9d709836735b56d943d263f"}
-		r = requests.post('http://54.89.224.232:80/api/v1/users',data = json.dumps(data))
+		r = requests.post('http://54.92.213.23:80/api/v1/users',data = json.dumps(data))
 		print("Status code after user creation = ",r.status_code)
 		#print(r.json())
 		stat_codes.append(r.status_code)
@@ -484,7 +484,7 @@ def health_checker():
 
 		#api 2 check - delete user
 		print("API 2")
-		r = requests.delete('http://54.89.224.232:80/api/v1/users/test_user').status_code
+		r = requests.delete('http://54.92.213.23:80/api/v1/users/test_user').status_code
 		stat_codes.append(r)
 
 
