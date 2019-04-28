@@ -49,7 +49,7 @@ def orchestrator(path):
 	which_container = get_next_container(active_containers)
 	#container_i = (container_i+1)%container_count
 	#url = path.replace(':80/',':'+str(8000+which_container)+"/")
-	url = "http://3.82.119.52:" + str(8000+which_container)+"/" +path
+	url = "http://localhost:" + str(8000+which_container)+"/" +path
 	user_url = user_url +"/" +path
 	
 	#return redirect(url)
@@ -104,7 +104,7 @@ def fun2():
 			print(cont)
 			#time.sleep(1)
 			headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"}
-			if requests.get("http://3.82.119.52:"+str(cont['port'])+"/api/v1/_health", headers=headers).status_code != 200:
+			if requests.get("http://localhost:"+str(cont['port'])+"/api/v1/_health", headers=headers).status_code != 200:
 				stop_container(cont['port'])
 				time.sleep(1)
 				run_container(cont['port'])

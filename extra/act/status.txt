@@ -1,0 +1,2 @@
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+ceb281b908dd        acts                "./entrypoint.sh --n…"   20 seconds ago      Up 19 seconds       0.0.0.0:8000->5000/tcp   sharp_brown

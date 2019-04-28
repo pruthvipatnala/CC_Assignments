@@ -1,0 +1,2 @@
+curl -i "Content-Type: application/json"   --request POST   --data '{"username":"test_user","password":"3d725109c7e7c0bfb9d709836735b56d943d263f"}'   http://3.83.89.98:5000/api/v1/users
+
