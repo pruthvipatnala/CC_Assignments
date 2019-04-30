@@ -509,8 +509,30 @@ def server_crash():
 		return jsonify({}),405
 
 
+@app.route('/_keepbusy',methods = ["POST","GET","DELETE","PUT"])
+def keep_busy():
+	global busy
+	busy = 1
+	return jsonify({}),200
+
+@app.route('/_keepfree',methods = ["POST","GET","DELETE","PUT"])
+def keep_free():
+	global busy
+	busy = 0
+	return jsonify({}),200
+
+@app.route('/_isbusy',methods = ["POST","GET","DELETE","PUT"])
+def isbusy():
+	global busy
+	if(busy==1):
+		return jsonify({}),200
+	else:
+		return jsonify({}),500
+
+
 
 if __name__ == '__main__':
+	busy = 0
 	count = 0
 	crash_status = 0
 	app.run(debug=True,host='0.0.0.0')

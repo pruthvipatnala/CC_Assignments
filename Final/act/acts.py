@@ -30,6 +30,7 @@ def is_sha1(maybe_sha):
 	return True
 
 def isBase64(s):
+	return True
 	try:
 		return base64.b64encode(base64.b64decode(s)) == s
 	except Exception:
@@ -136,7 +137,7 @@ def api_list_all_categories():
 		return jsonify(act_count_dict),200
 
 	elif request.method == 'POST':
-		userDataInJsonFormat = (request.get_json())
+		userDataInJsonFormat = (request.get_json(force=True))
 		print(type(userDataInJsonFormat))
 		for i in userDataInJsonFormat:
 			if(check_new_category(i)==0):

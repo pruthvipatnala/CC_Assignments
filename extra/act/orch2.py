@@ -86,8 +86,13 @@ def orchestrator(path):
 
 def get_next_container(active_containers):
 	global container_i
-	container_i = (container_i+1)%len(active_containers)
-	return container_i
+	while(True):
+		container_i = (container_i+1)%len(active_containers)
+		url = "http://localhost:" + str(8000+container_i)+"/_isbusy"
+		if requests.get(url).status_code==200:
+			return container_i
+		else:
+			continue
 
 
 sem = threading.Semaphore()
